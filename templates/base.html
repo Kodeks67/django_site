@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Портфолио{% endblock %}</title>
+</head>
+<body>
+  <nav>Навбар тут</nav>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>© {{ request.get_host }}</footer>
+</body>
+</html>
