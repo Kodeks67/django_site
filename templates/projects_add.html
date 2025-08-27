@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Добавить проект{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6">
+  <h1 class="text-2xl font-bold mb-4">Добавить проект</h1>
+
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="p-3 bg-red-100 text-red-900 rounded">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.title.id_for_label }}">Название</label>
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.description.id_for_label }}">Описание</label>
+      {{ form.description }}
+      {{ form.description.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.tech_stack.id_for_label }}">Стек</label>
+      {{ form.tech_stack }}
+      {{ form.tech_stack.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.cover.id_for_label }}">Обложка</label>
+      {{ form.cover }}
+      {{ form.cover.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.repo_url.id_for_label }}">Repo URL</label>
+      {{ form.repo_url }}
+      {{ form.repo_url.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.demo_url.id_for_label }}">Demo URL</label>
+      {{ form.demo_url }}
+      {{ form.demo_url.errors }}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.tags_input.id_for_label }}">Теги (через запятую)</label>
+      {{ form.tags_input }}
+      <p class="text-xs text-gray-500 mt-1">{{ form.fields.tags_input.help_text }}</p>
+      {{ form.tags_input.errors }}
+    </div>
+
+    <button class="bg-black text-white px-4 py-2 rounded">Сохранить</button>
+  </form>
+</div>
+{% endblock %}

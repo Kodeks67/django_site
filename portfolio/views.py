@@ -1,5 +1,10 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.views.generic import CreateView
 
+from .forms import ProjectForm
 from .models import Project, Tag
 
 
@@ -29,3 +34,17 @@ def projects_list(request):
     return render(
         request, "projects_list.html", {"projects": projects, "active_tag": active_tag}
     )
+
+
+class ProjectCreateView(LoginRequiredMixin, CreateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = "projects_add.html"
+
+    def form_valid(self, form):
+        resp = super().form_valid(form)
+        messages.success(self.request, "Проект добавлен ✅")
+        return resp
+
+    def get_success_url(self):
+        return reverse("project_detail", kwargs={"slug": self.object.slug})

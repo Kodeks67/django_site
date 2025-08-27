@@ -18,7 +18,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 from portfolio import views
 from portfolio.views import index, project_detail
@@ -27,7 +27,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name="home"),
     path("projects/", views.projects_list, name="projects_list"),
+    path("projects/add/", views.ProjectCreateView.as_view(), name="project_add"),
     path("projects/<slug:slug>/", project_detail, name="project_detail"),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,3 +5,11 @@ db.sqlite3
 media/
 pytest_cache/
 .pytest_cache/
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# IDE
+.idea/
+.vscode/
