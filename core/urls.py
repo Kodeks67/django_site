@@ -18,9 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from portfolio.views import index
+from portfolio.views import index, project_detail
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index, name="home"),
+    path("projects/<slug:slug>/", project_detail, name="project_detail"),
 ]
