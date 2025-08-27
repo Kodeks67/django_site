@@ -4,7 +4,7 @@ from .models import Project, Tag
 
 
 def index(request):
-    projects = Project.objects.order_by("-created_at")[:6]
+    projects = Project.objects.order_by("-created_at")[:3]
     return render(request, "index.html", {"projects": projects})
 
 

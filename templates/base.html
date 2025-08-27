@@ -5,11 +5,9 @@
   <meta charset="utf-8" />
   <title>{% block title %}Портфолио{% endblock %}</title>
 </head>
-<body>
-  <nav>Навбар тут</nav>
-  <main>
+<body class="bg-gray-50">
+  <main class="min-h-screen">
     {% block content %}{% endblock %}
   </main>
-  <footer>© {{ request.get_host }}</footer>
 </body>
 </html>

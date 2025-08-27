@@ -1,15 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Проекты{% endblock %}
 {% block content %}
-<div class="max-w-6xl mx-auto p-4">
-  <h1 class="text-2xl font-semibold mb-4">Проекты</h1>
-
-  {% if active_tag %}
-    <p class="text-sm text-gray-600 mb-3">
-      Фильтр: <span class="font-medium">#{{ active_tag.name }}</span>
-      — <a class="underline" href="{% url 'projects_list' %}">сбросить</a>
-    </p>
-  {% endif %}
+  <h1 class="text-3xl font-bold mb-6">Проекты</h1>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     {% for p in projects %}
@@ -17,16 +9,18 @@
         {% if p.cover %}
           <img src="{{ p.cover.url }}" alt="{{ p.title }}" class="w-full h-48 object-cover">
         {% else %}
-          <img src="https://via.placeholder.com/600x400?text=No+Cover" class="w-full h-48 object-cover" alt="">
+          <img src="https://via.placeholder.com/600x400?text=No+Cover" class="w-full h-48 object-cover">
         {% endif %}
         <div class="p-4">
-          <h3 class="text-lg font-semibold mb-2">{{ p.title }}</h3>
+          <h3 class="text-lg font-semibold mb-1">{{ p.title }}</h3>
 
           {% if p.tags.all %}
             <div class="flex flex-wrap gap-2 mb-2">
               {% for t in p.tags.all %}
                 <a href="{% url 'projects_list' %}?tag={{ t.slug }}"
-                   class="text-xs bg-gray-100 px-2 py-1 rounded-full hover:bg-gray-200">#{{ t.name }}</a>
+                   class="text-xs bg-gray-100 px-2 py-1 rounded-full hover:bg-gray-200">
+                  #{{ t.name }}
+                </a>
               {% endfor %}
             </div>
           {% endif %}
@@ -34,29 +28,31 @@
           {% if p.tech_stack %}
             <p class="text-sm text-gray-600 mb-2">{{ p.tech_stack }}</p>
           {% endif %}
+
           <p class="text-xs text-gray-400 mb-3">Создан: {{ p.created_at|date:"d.m.Y H:i" }}</p>
 
-          <a href="{% url 'project_detail' slug=p.slug %}"
-             class="inline-block bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition">
-            Открыть
-          </a>
+          <div class="flex gap-2 mt-2">
+            {% if p.repo_url %}
+              <a href="{{ p.repo_url }}" target="_blank" rel="noopener"
+                 class="inline-block bg-gray-900 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-gray-800 transition">
+                GitHub
+              </a>
+            {% endif %}
+            {% if p.demo_url %}
+              <a href="{{ p.demo_url }}" target="_blank" rel="noopener"
+                 class="inline-block bg-white border border-gray-300 px-3 py-1.5 rounded-lg text-sm hover:bg-gray-100 transition">
+                Demo
+              </a>
+            {% endif %}
+            <a href="{% url 'project_detail' slug=p.slug %}"
+               class="inline-block border border-black px-3 py-1.5 rounded-lg text-sm hover:bg-black hover:text-white transition">
+              Открыть
+            </a>
+          </div>
         </div>
       </article>
     {% empty %}
-      <p>Пока нет проектов.</p>
+      <p class="text-gray-600">Пока нет проектов.</p>
     {% endfor %}
   </div>
-
-  {% if projects.paginator.num_pages > 1 %}
-    <div class="flex items-center gap-3 mt-6">
-      {% if projects.has_previous %}
-        <a class="px-3 py-2 border rounded-lg hover:bg-gray-50" href="?page={{ projects.previous_page_number }}">← Назад</a>
-      {% endif %}
-      <span class="text-sm text-gray-500">Стр. {{ projects.number }} / {{ projects.paginator.num_pages }}</span>
-      {% if projects.has_next %}
-        <a class="px-3 py-2 border rounded-lg hover:bg-gray-50" href="?page={{ projects.next_page_number }}">Вперёд →</a>
-      {% endif %}
-    </div>
-  {% endif %}
-</div>
 {% endblock %}

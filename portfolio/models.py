@@ -45,6 +45,9 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name="projects")
 
+    repo_url = models.URLField("Ссылка на репозиторий", blank=True)
+    demo_url = models.URLField("Ссылка на демо", blank=True)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = unique_slugify(self, self.title)
