@@ -1,0 +1,7 @@
+# Django / pytest
+db.sqlite3
+*.sqlite3
+.media/
+media/
+pytest_cache/
+.pytest_cache/

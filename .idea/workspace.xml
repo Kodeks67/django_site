@@ -4,28 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="923ef356-1003-420d-808a-ab73502c26bc" name="Changes" comment="изменил конфиги в .pre-commit-config.yaml, добавил директории core, portfolio, templates. написал минимальный скелет для работы сайта, добавил суперадмина">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portfolio/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Django_site.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Django_site.iml" afterDir="false" />
+    <list default="true" id="923ef356-1003-420d-808a-ab73502c26bc" name="Changes" comment="добавил тесты и конфиги для тестов в .pre-commit-config.yaml">
+      <change afterPath="$PROJECT_DIR$/media/projects/covers/photo_2024-11-20_21-19-19.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/projects/covers/Без_названия.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/projects/covers/Без_названия_JOhKPni.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/projects/covers/Без_названия_vj8nrGj.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/projects/covers/фото.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/migrations/0002_project_slug.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/migrations/0003_project_cover_project_tech_stack_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/migrations/0004_alter_project_slug.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/migrations/0005_tag_project_tags.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/migrations/0006_project_demo_url_project_repo_url.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/tests/conftest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/tests/factories.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/tests/test_models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portfolio/tests/test_views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.pre-commit-config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.pre-commit-config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,15 +34,16 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -109,7 +108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756197614848</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="исправил теперь можно редактировать в админке добавления проектов, улучшил вид сайта, добавил красивый кнопки, репозитории к github и demo">
+      <option name="closed" value="true" />
+      <created>1756293076093</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1756293076093</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +137,11 @@
     <MESSAGE value="создание окружения" />
     <MESSAGE value="добавил файл .pre-commit-config.yaml, .gitignore" />
     <MESSAGE value="изменил конфиги в .pre-commit-config.yaml, добавил директории core, portfolio, templates. написал минимальный скелет для работы сайта, добавил суперадмина" />
-    <option name="LAST_COMMIT_MESSAGE" value="изменил конфиги в .pre-commit-config.yaml, добавил директории core, portfolio, templates. написал минимальный скелет для работы сайта, добавил суперадмина" />
+    <MESSAGE value="исправил теперь можно редактировать в админке добавления проектов, улучшил вид сайта, добавил красивый кнопки, репозитории к github и demo" />
+    <MESSAGE value="добавил тесты и конфиги для тестов в .pre-commit-config.yaml" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавил тесты и конфиги для тестов в .pre-commit-config.yaml" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Django_site$settings.coverage" NAME="settings Coverage Results" MODIFIED="1756287601169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/core" />
   </component>
 </project>
