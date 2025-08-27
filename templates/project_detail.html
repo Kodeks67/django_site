@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-4">
+  <!-- карточка -->
+  <article class="bg-white rounded-2xl shadow overflow-hidden">
+    {% if project.cover %}
+      <img src="{{ project.cover.url }}" alt="{{ project.title }}" class="w-full h-72 object-cover">
+    {% endif %}
+
+    <div class="p-6 space-y-4">
+      <h1 class="text-3xl font-semibold">{{ project.title }}</h1>
+
+      {% if project.tags.all %}
+      <div class="flex flex-wrap gap-2">
+        {% for t in project.tags.all %}
+          <a href="{% url 'projects_list' %}?tag={{ t.slug }}"
+             class="text-xs bg-gray-100 px-2 py-1 rounded-full hover:bg-gray-200">#{{ t.name }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if project.tech_stack %}
+        <p class="text-sm text-gray-600">
+          <span class="font-medium text-gray-800">Стек:</span> {{ project.tech_stack }}
+        </p>
+      {% endif %}
+
+      {% if project.description %}
+        <div class="prose max-w-none">
+          <p class="text-gray-800 leading-relaxed whitespace-pre-line">{{ project.description }}</p>
+        </div>
+      {% else %}
+        <p class="text-gray-400">Описание пока не добавлено.</p>
+      {% endif %}
+
+      <div class="flex items-center justify-between pt-2">
+        <p class="text-xs text-gray-400">
+          Создан: {{ project.created_at|date:"d.m.Y H:i" }}
+        </p>
+        <a href="{% url 'projects_list' %}"
+           class="inline-block bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-800 transition">
+          ← Ко всем проектам
+        </a>
+      </div>
+    </div>
+  </article>
+</div>
+{% endblock %}
