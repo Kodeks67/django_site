@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ project.title }}{% endblock %}
+{% load markup %}
 {% block content %}
 <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6">
   {% if project.cover %}
@@ -23,7 +24,7 @@
     <p class="text-gray-600 mb-4"><b>Стек технологий:</b> {{ project.tech_stack }}</p>
   {% endif %}
 
-  <p class="text-gray-800 mb-6">{{ project.description }}</p>
+  <p class="text-gray-800 mb-6">{{ project.description|markdown_safe|safe }}</p>
 
   <p class="text-xs text-gray-400">Создан: {{ project.created_at|date:"d.m.Y H:i" }}</p>
 
