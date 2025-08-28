@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Редактировать: {{ object.title }}{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6">
+  <h1 class="text-2xl font-bold mb-4">Редактировать проект</h1>
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      <label class="block text-sm mb-1">Название</label>
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+    <div><label class="block text-sm mb-1">Описание</label>{{ form.description }}{{ form.description.errors }}</div>
+    <div><label class="block text-sm mb-1">Стек</label>{{ form.tech_stack }}{{ form.tech_stack.errors }}</div>
+    <div><label class="block text-sm mb-1">Обложка</label>{{ form.cover }}{{ form.cover.errors }}</div>
+    <div><label class="block text-sm mb-1">Repo URL</label>{{ form.repo_url }}{{ form.repo_url.errors }}</div>
+    <div><label class="block text-sm mb-1">Demo URL</label>{{ form.demo_url }}{{ form.demo_url.errors }}</div>
+    <div>
+      <label class="block text-sm mb-1">Теги (через запятую)</label>
+      {{ form.tags_input }}
+      <p class="text-xs text-gray-500 mt-1">{{ form.fields.tags_input.help_text }}</p>
+      {{ form.tags_input.errors }}
+    </div>
+    <button class="bg-black text-white px-4 py-2 rounded">Сохранить</button>
+    <a href="{% url 'project_detail' slug=object.slug %}" class="ml-2 text-sm underline">Отмена</a>
+  </form>
+</div>
+{% endblock %}

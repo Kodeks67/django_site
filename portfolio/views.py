@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, UpdateView
 
 from .forms import ProjectForm
 from .models import Project, Tag
@@ -42,9 +42,47 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = "projects_add.html"
 
     def form_valid(self, form):
-        resp = super().form_valid(form)
+        obj = form.save(commit=False)
+        obj.owner = self.request.user
+        obj.save()
+        form.save_m2m()
         messages.success(self.request, "Проект добавлен ✅")
-        return resp
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse("project_detail", kwargs={"slug": self.object.slug})
+
+
+class OwnerRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        obj = self.get_object()
+        u = self.request.user
+        return u.is_authenticated and (u.is_staff or obj.owner_id == u.id)
+
+    def handle_no_permission(self):
+        messages.error(self.request, "У вас нет прав на это действие.")
+        return super().handle_no_permission()
+
+
+class ProjectUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = "projects_edit.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_success_url(self):
+        messages.success(self.request, "Проект обновлён ✅")
+        return reverse("project_detail", kwargs={"slug": self.object.slug})
+
+
+class ProjectDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+    model = Project
+    template_name = "projects_delete.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+    success_url = reverse_lazy("projects_list")
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Проект удалён 🗑️")
+        return super().delete(request, *args, **kwargs)

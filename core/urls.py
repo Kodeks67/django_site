@@ -37,6 +37,16 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("rss/projects/", ProjectsFeed(), name="projects_rss"),
+    path(
+        "projects/<slug:slug>/edit/",
+        views.ProjectUpdateView.as_view(),
+        name="project_edit",
+    ),
+    path(
+        "projects/<slug:slug>/delete/",
+        views.ProjectDeleteView.as_view(),
+        name="project_delete",
+    ),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

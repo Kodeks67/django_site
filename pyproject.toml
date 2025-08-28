@@ -17,3 +17,25 @@ addopts = "-q"
 filterwarnings = [
   "ignore:.*RemovedInDjango60Warning.*"
 ]
+
+[project]
+name = "portfolio"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "Django>=5.0",
+    "psycopg2-binary",   # PostgreSQL драйвер
+    "markdown",
+    "bleach",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-django",
+    "factory_boy",
+    "black",
+    "isort",
+    "flake8",
+    "pre-commit",
+]
