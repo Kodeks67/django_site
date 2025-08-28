@@ -15,6 +15,19 @@ class ProjectForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": BASE_INPUT_CLS}),
     )
 
+    repo_url = forms.URLField(
+        label="Ссылка на репозиторий",
+        required=False,
+        assume_scheme="https",
+        widget=forms.URLInput(attrs={"class": BASE_INPUT_CLS}),
+    )
+    demo_url = forms.URLField(
+        label="Ссылка на демо",
+        required=False,
+        assume_scheme="https",
+        widget=forms.URLInput(attrs={"class": BASE_INPUT_CLS}),
+    )
+
     class Meta:
         model = Project
         fields = [
@@ -31,8 +44,6 @@ class ProjectForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"rows": 6, "class": BASE_INPUT_CLS}),
             "tech_stack": forms.TextInput(attrs={"class": BASE_INPUT_CLS}),
             "cover": forms.ClearableFileInput(attrs={"class": BASE_INPUT_CLS}),
-            "repo_url": forms.URLInput(attrs={"class": BASE_INPUT_CLS}),
-            "demo_url": forms.URLInput(attrs={"class": BASE_INPUT_CLS}),
         }
 
     def clean_repo_url(self):

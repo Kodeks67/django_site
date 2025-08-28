@@ -18,10 +18,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from portfolio import views
+from portfolio.sitemaps import ProjectSitemap
 from portfolio.views import index, project_detail
+
+sitemaps = {"projects": ProjectSitemap}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,6 +34,7 @@ urlpatterns = [
     path("projects/add/", views.ProjectCreateView.as_view(), name="project_add"),
     path("projects/<slug:slug>/", project_detail, name="project_detail"),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
