@@ -1,11 +1,15 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.utils import timezone
+from django.views.generic import CreateView, DeleteView, FormView, UpdateView
 
-from .forms import ProjectForm
-from .models import Project, Tag
+from .forms import ContactForm, ProjectForm
+from .models import ContactMessage, Project, Tag
 
 
 def index(request):
@@ -86,3 +90,52 @@ class ProjectDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "Проект удалён 🗑️")
         return super().delete(request, *args, **kwargs)
+
+
+class ContactView(FormView):
+    template_name = "contact.html"
+    form_class = ContactForm
+    success_url = reverse_lazy("contact")
+
+    def dispatch(self, request, *args, **kwargs):
+        ip = self.get_ip()
+        key = f"contact_rate_{ip}"
+        last = cache.get(key)
+        if last and (timezone.now() - last).total_seconds() < 30:
+            messages.error(request, "Слишком часто. Попробуйте через несколько секунд.")
+            return super().get(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        ip = self.get_ip()
+        msg = ContactMessage.objects.create(
+            name=form.cleaned_data["name"],
+            email=form.cleaned_data["email"],
+            subject=form.cleaned_data.get("subject", ""),
+            message=form.cleaned_data["message"],
+            client_ip=ip,
+            user_agent=self.request.META.get("HTTP_USER_AGENT", "")[:500],
+        )
+        subject = form.cleaned_data.get("subject") or "Сообщение с портфолио"
+        body = (
+            f"От: {msg.name} <{msg.email}>\n"
+            f"IP: {msg.client_ip}\nUA: {msg.user_agent}\n\n"
+            f"{msg.message}"
+        )
+        send_mail(
+            subject,
+            body,
+            getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@example.com"),
+            [getattr(settings, "CONTACT_RECEIVER_EMAIL", "owner@example.com")],
+        )
+        cache.set(f"contact_rate_{ip}", timezone.now(), 60)
+        messages.success(self.request, "Спасибо! Сообщение отправлено ✅")
+        return super().form_valid(form)
+
+    def get_ip(self):
+        xff = self.request.META.get("HTTP_X_FORWARDED_FOR")
+        return (
+            xff.split(",")[0].strip()
+            if xff
+            else self.request.META.get("REMOTE_ADDR", "0.0.0.0")
+        )

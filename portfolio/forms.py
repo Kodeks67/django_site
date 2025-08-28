@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
 from django import forms
+from django.core.exceptions import ValidationError
 
 from .models import Project, Tag
 
@@ -71,3 +72,34 @@ class ProjectForm(forms.ModelForm):
         if tags:
             instance.tags.set(tags, clear=False)
         return instance
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(
+        label="Имя",
+        max_length=120,
+        widget=forms.TextInput(attrs={"class": "w-full border rounded px-3 py-2"}),
+    )
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={"class": "w-full border rounded px-3 py-2"}),
+    )
+    subject = forms.CharField(
+        label="Тема",
+        max_length=200,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "w-full border rounded px-3 py-2"}),
+    )
+    message = forms.CharField(
+        label="Сообщение",
+        widget=forms.Textarea(
+            attrs={"class": "w-full border rounded px-3 py-2", "rows": 6}
+        ),
+    )
+    # honeypot — скрытое поле (боты часто заполняют)
+    website = forms.CharField(required=False, widget=forms.HiddenInput())
+
+    def clean_website(self):
+        if self.cleaned_data.get("website"):
+            raise ValidationError("Спам обнаружен.")
+        return ""

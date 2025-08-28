@@ -24,7 +24,7 @@ from django.urls import include, path
 from portfolio import views
 from portfolio.feeds import ProjectsFeed
 from portfolio.sitemaps import ProjectSitemap
-from portfolio.views import index, project_detail
+from portfolio.views import ContactView, index, project_detail
 
 sitemaps = {"projects": ProjectSitemap}
 
@@ -47,6 +47,7 @@ urlpatterns = [
         views.ProjectDeleteView.as_view(),
         name="project_delete",
     ),
+    path("contact/", ContactView.as_view(), name="contact"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

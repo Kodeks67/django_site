@@ -130,3 +130,7 @@ TEMPLATES[0]["APP_DIRS"] = True
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "no-reply@example.com"
+CONTACT_RECEIVER_EMAIL = "owner@example.com"
+CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}

@@ -68,3 +68,18 @@ class Project(models.Model):
 
 def get_absolute_url(self):
     return reverse("project_detail", kwargs={"slug": self.slug})
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=120)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200, blank=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    client_ip = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(blank=True)
+    is_processed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name}: {self.subject or self.message[:30]}"

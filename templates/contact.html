@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Контакты{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white rounded-2xl shadow p-6">
+  <h1 class="text-2xl font-bold mb-4">Связаться со мной</h1>
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="p-3 bg-red-100 text-red-900 rounded">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.name.id_for_label }}">Имя</label>
+      {{ form.name }} {{ form.name.errors }}
+    </div>
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }} {{ form.email.errors }}
+    </div>
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.subject.id_for_label }}">Тема</label>
+      {{ form.subject }} {{ form.subject.errors }}
+    </div>
+    <div>
+      <label class="block text-sm mb-1" for="{{ form.message.id_for_label }}">Сообщение</label>
+      {{ form.message }} {{ form.message.errors }}
+    </div>
+
+    {{ form.website }} {# honeypot #}
+
+    <button class="bg-black text-white px-4 py-2 rounded">Отправить</button>
+  </form>
+</div>
+{% endblock %}
