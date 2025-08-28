@@ -22,6 +22,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from portfolio import views
+from portfolio.feeds import ProjectsFeed
 from portfolio.sitemaps import ProjectSitemap
 from portfolio.views import index, project_detail
 
@@ -35,6 +36,7 @@ urlpatterns = [
     path("projects/<slug:slug>/", project_detail, name="project_detail"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+    path("rss/projects/", ProjectsFeed(), name="projects_rss"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
