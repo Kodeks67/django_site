@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
 from django.core.mail import send_mail
+from django.db import IntegrityError, transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
@@ -45,17 +46,24 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = "projects_add.html"
+    success_url = reverse_lazy("projects_list")
+
+    login_url = "login"
+    redirect_field_name = "next"
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.owner = self.request.user
-        obj.save()
-        form.save_m2m()
-        messages.success(self.request, "Проект добавлен ✅")
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse("project_detail", kwargs={"slug": self.object.slug})
+        form.instance.owner = self.request.user
+        try:
+            with transaction.atomic():
+                resp = super().form_valid(form)
+        except IntegrityError:
+            form.add_error(
+                None,
+                "Не удалось сохранить проект (конфликт данных). Попробуйте ещё раз.",
+            )
+            return self.form_invalid(form)
+        messages.success(self.request, "Проект добавлен!")
+        return resp
 
 
 class OwnerRequiredMixin(UserPassesTestMixin):

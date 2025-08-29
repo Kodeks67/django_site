@@ -18,37 +18,31 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
-from portfolio import views
-from portfolio.feeds import ProjectsFeed
 from portfolio.sitemaps import ProjectSitemap
-from portfolio.views import ContactView, healthz, index, project_detail
+from portfolio.views import healthz
 
 sitemaps = {"projects": ProjectSitemap}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", index, name="home"),
-    path("projects/", views.projects_list, name="projects_list"),
-    path("projects/add/", views.ProjectCreateView.as_view(), name="project_add"),
-    path("projects/<slug:slug>/", project_detail, name="project_detail"),
-    path("accounts/", include("django.contrib.auth.urls")),
+    path(
+        "login/",
+        auth_views.LoginView.as_view(template_name="registration/login.html"),
+        name="login",
+    ),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path(
+        "accounts/",
+        include(("django.contrib.auth.urls", "auth"), namespace="accounts"),
+    ),
+    path("", include("portfolio.urls")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
-    path("rss/projects/", ProjectsFeed(), name="projects_rss"),
-    path(
-        "projects/<slug:slug>/edit/",
-        views.ProjectUpdateView.as_view(),
-        name="project_edit",
-    ),
-    path(
-        "projects/<slug:slug>/delete/",
-        views.ProjectDeleteView.as_view(),
-        name="project_delete",
-    ),
-    path("contact/", ContactView.as_view(), name="contact"),
     path("healthz/", healthz, name="healthz"),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,5 @@
 # flake8: noqa
 import os
-from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -39,3 +38,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
     "http://127.0.0.1",
 ]
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
