@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
 from django.core.mail import send_mail
@@ -10,7 +11,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, DeleteView, FormView, UpdateView
 
-from .forms import ContactForm, ProjectForm
+from .forms import ContactForm, ProjectForm, RegistrationForm
 from .models import ContactMessage, Project, Tag
 
 
@@ -152,3 +153,17 @@ class ContactView(FormView):
 
 def healthz(_request):
     return HttpResponse("ok", content_type="text/plain")
+
+
+class RegisterView(FormView):
+    template_name = "registration/register.html"
+    form_class = RegistrationForm
+    success_url = reverse_lazy("home")
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        messages.success(
+            self.request, "Добро пожаловать! Аккаунт создан и вы вошли в систему."
+        )
+        return super().form_valid(form)
