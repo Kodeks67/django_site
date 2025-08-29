@@ -24,9 +24,10 @@ version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
     "Django>=5.0",
-    "psycopg2-binary",   # PostgreSQL драйвер
+    "psycopg2-binary",
     "markdown",
     "bleach",
+    "gunicorn",
 ]
 
 [project.optional-dependencies]

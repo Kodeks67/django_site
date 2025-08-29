@@ -1,0 +1,7 @@
+services:
+  web:
+    volumes:
+      - ./mediafiles:/app/mediafiles
+  nginx:
+    volumes:
+      - ./mediafiles:/media:ro
