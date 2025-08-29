@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Ошибка сервера{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto text-center">
+  <h1 class="text-3xl font-bold mb-2">Упс… что-то сломалось</h1>
+  <p class="mb-4">Мы уже чиним. Попробуйте позже.</p>
+  <a class="inline-block bg-black text-white px-4 py-2 rounded" href="{% url 'home' %}">На главную</a>
+</div>
+{% endblock %}

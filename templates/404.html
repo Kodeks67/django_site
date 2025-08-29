@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Страница не найдена{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto text-center">
+  <h1 class="text-3xl font-bold mb-2">404 — не туда попали</h1>
+  <p class="mb-4">Такой страницы нет. Вернёмся на главную?</p>
+  <a class="inline-block bg-black text-white px-4 py-2 rounded" href="{% url 'home' %}">На главную</a>
+</div>
+{% endblock %}

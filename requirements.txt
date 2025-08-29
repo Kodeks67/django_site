@@ -1,9 +1,19 @@
-Django==5.0.6
+# --- Основные пакеты ---
+Django==5.0.7
 gunicorn==21.2.0
 psycopg2-binary==2.9.9
-Pillow==10.4.0
-markdown==3.6
-bleach==6.1.0
+python-dotenv==1.0.1
+
+# --- Тестирование ---
 pytest==8.3.2
-pytest-django==4.9.0
-factory_boy==3.3.0
+pytest-django==4.8.0
+
+# --- Линтеры и форматтеры ---
+black==24.8.0
+isort==5.13.2
+flake8==7.1.1
+python-dotenv==1.0.1
+django-extensions==3.2.3
+bleach==6.1.0
+markdown==3.6
+Pillow==10.4.0
