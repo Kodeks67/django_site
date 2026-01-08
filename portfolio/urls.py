@@ -21,4 +21,5 @@ urlpatterns = [
     path("contact/", views.ContactView.as_view(), name="contact"),
     path("rss/projects/", ProjectsFeed(), name="projects_rss"),
     path("register/", views.RegisterView.as_view(), name="register"),
+    path("profile/", views.MyProfileView.as_view(), name="profile"),
 ]

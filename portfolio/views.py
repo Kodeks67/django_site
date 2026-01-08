@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, DeleteView, FormView, UpdateView
+from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
 
 from .forms import ContactForm, ProjectForm, RegistrationForm
 from .models import ContactMessage, Project, Tag
@@ -167,3 +167,17 @@ class RegisterView(FormView):
             self.request, "Добро пожаловать! Аккаунт создан и вы вошли в систему."
         )
         return super().form_valid(form)
+
+
+class MyProfileView(LoginRequiredMixin, ListView):
+    template_name = "profile.html"
+    context_object_name = "projects"
+    paginate_by = 9
+
+    def get_queryset(self):
+        return (
+            Project.objects.filter(owner=self.request.user)
+            .order_by("-created_at")
+            .select_related("owner")
+            .prefetch_related("tags")
+        )

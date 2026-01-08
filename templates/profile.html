@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6">Привет, {{ request.user.username }}!</h1>
+  <p class="text-gray-600 mb-6">Здесь собраны все проекты, которые ты добавил.</p>
+
+  {% if projects %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for p in projects %}
+        <div class="bg-white rounded-2xl shadow overflow-hidden">
+          {% if p.cover %}
+            <img src="{{ p.cover.url }}" alt="" class="w-full h-44 object-cover">
+          {% endif %}
+          <div class="p-4">
+            <h2 class="font-semibold text-lg mb-1">
+              <a href="{{ p.get_absolute_url }}" class="hover:underline">{{ p.title }}</a>
+            </h2>
+            {% if p.tech_stack %}<div class="text-sm text-gray-500 mb-2">{{ p.tech_stack }}</div>{% endif %}
+            <div class="flex gap-2 flex-wrap mb-3">
+              {% for t in p.tags.all %}
+                <span class="text-xs px-2 py-1 rounded bg-gray-100">#{{ t.name }}</span>
+              {% endfor %}
+            </div>
+            <div class="flex gap-2">
+              <a href="{{ p.get_absolute_url }}" class="px-3 py-1 rounded bg-black text-white text-sm">Открыть</a>
+              <a href="{% url 'project_edit' p.slug %}" class="px-3 py-1 rounded border text-sm hover:bg-black hover:text-white">Редактировать</a>
+              <a href="{% url 'project_delete' p.slug %}" class="px-3 py-1 rounded border text-sm hover:bg-black hover:text-white">Удалить</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+      <div class="mt-6 flex gap-2">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 rounded border">Назад</a>
+        {% endif %}
+        <span class="px-3 py-1">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 rounded border">Вперёд</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="bg-white rounded-2xl p-6 shadow">
+      <p>Пока нет проектов. <a href="{% url 'project_add' %}" class="underline">Добавить первый</a> →</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

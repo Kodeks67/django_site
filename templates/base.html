@@ -21,7 +21,32 @@
         {% endfor %}
       </div>
     {% endif %}
+  </main>
+</body>
+<body>
+  <header class="max-w-6xl mx-auto flex justify-end gap-3 p-4">
+    {% if request.user.is_authenticated %}
+      <a href="{% url 'profile' %}" class="text-sm underline">Мой профиль</a>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="text-sm underline">Выйти</button>
+      </form>
+    {% else %}
+      <a href="{% url 'login' %}" class="text-sm underline">Войти</a>
+      <a href="{% url 'register' %}" class="text-sm underline">Регистрация</a>
+    {% endif %}
+  </header>
 
+  <main class="min-h-screen p-6">
+    {% if messages %}
+      <div class="max-w-3xl mx-auto mb-4 space-y-2">
+        {% for m in messages %}
+          <div class="p-3 rounded-lg {% if m.tags == 'success' %}bg-green-100 text-green-900{% elif m.tags == 'error' %}bg-red-100 text-red-900{% else %}bg-gray-100 text-gray-900{% endif %}">
+            {{ m }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
 </body>
